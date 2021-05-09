@@ -162,8 +162,6 @@ class FlowClient {
       ..proposalKey = proposalKey
       ..gasLimit = fixedGasLimit;
 
-
-
     // TODO: implement signatures
     // reference GO implementation here:
     // https://github.com/onflow/flow-go-sdk/blob/878e5e586e0f060b88c6036cf4b0f6a7ab66d198/transaction.go#L90
