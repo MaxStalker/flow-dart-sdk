@@ -6,7 +6,5 @@ dynamic prepareArguments(List<CadenceValue> arguments){
   if (arguments != null){
     args = arguments;
   }
-  final encodedArguments = args.map((e) => e.toMessage());
-
-  return encodedArguments;
+  return args.map((e) => e.toMessage());
 }
