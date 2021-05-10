@@ -2,13 +2,41 @@ import 'dart:ffi';
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:convert/convert.dart';
+import 'package:flow_dart_sdk/fcl/utils.dart';
+import 'package:flow_dart_sdk/src/generated/flow/entities/transaction.pb.dart';
+import 'package:rlp/rlp.dart';
 
-dynamic encodeTransactionPayload() {
+dynamic payloadToMessage(Transaction tx) {
+  final code = utf8.decode(tx.script);
+  final arguments = tx.arguments;
+  final refBlockId = toBlockId(tx.referenceBlockId);
+  final gasLimit = tx.gasLimit.hashCode;
+  final proposerAddress = toAddress(tx.proposalKey.address);
+  final payerAddress = toAddress(tx.payer);
+  final keyId = tx.proposalKey.keyId;
+  final sequenceNumber = tx.proposalKey.sequenceNumber.hashCode;
+  final authorizers = tx.authorizers.map(toAddress).toList();
 
-  return [];
+  print(arguments);
+
+  final payload = [
+    code,
+    arguments,
+    refBlockId,
+    gasLimit,
+    proposerAddress,
+    keyId,
+    sequenceNumber,
+    payerAddress,
+    authorizers
+  ];
+
+  return Rlp.encode(payload);
 }
 
+/*
 dynamic preparePayload(dynamic transaction){
 
   return 42;
 }
+ */
