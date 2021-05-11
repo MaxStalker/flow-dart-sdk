@@ -19,18 +19,21 @@ class CadenceValue {
 
   CadenceValue.fromJson(Map<String, dynamic> json)
       : type = enumFromString(CadenceType.values, json['type']),
-      value = json['value'];
+        value = json['value'];
 
-  Map<String, dynamic> toJson() => {
-    'type': type.toString().split('.').last,
-    'value': value
-  };
+  Map<String, dynamic> toJson() =>
+      {'type': type.toString().split('.').last, 'value': value};
 
   String toJsonString() {
-    return json.encode(this.toJson());
+    // TODO: Investigate if it will work without newline character
+    // Go version of this covnersion includes new line character at the end
+    // which results in a string different from one in Go tests
+    final newLine = "\n";
+    return json.encode(this.toJson()) + newLine;
+    // return json.encode(this.toJson());
   }
 
-  List<int> toMessage(){
+  List<int> toMessage() {
     return utf8.encode(this.toJsonString());
   }
 }
@@ -47,15 +50,15 @@ class CadenceInt {
         value = json['value'];
 
   Map<String, dynamic> toJson() => {
-    'type': type,
-    'value': value,
-  };
+        'type': type,
+        'value': value,
+      };
 
   String toJsonString() {
     return json.encode(this.toJson());
   }
 
-  List<int> toMessage(){
+  List<int> toMessage() {
     return utf8.encode(this.toJsonString());
   }
 }
@@ -72,15 +75,15 @@ class CadenceString {
         value = json['value'];
 
   Map<String, dynamic> toJson() => {
-    'type': type,
-    'value': value,
-  };
+        'type': type,
+        'value': value,
+      };
 
   String toJsonString() {
     return json.encode(this.toJson());
   }
 
-  List<int> toMessage(){
+  List<int> toMessage() {
     return utf8.encode(this.toJsonString());
   }
 }
