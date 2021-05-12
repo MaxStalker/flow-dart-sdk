@@ -8,6 +8,14 @@ import 'package:pointycastle/pointycastle.dart';
 
 void main() {
 
+  final input = [123, 34, 116, 121, 112, 101, 34, 58, 34, 83, 116, 114, 105, 110, 103, 34, 44, 34, 118, 97, 108, 117, 101, 34, 58, 34, 102, 111, 111, 34, 125, 10];
+  print(Rlp.encode(input));
+  print("\n");
+  final input2 = [224, 123, 34, 116, 121, 112, 101, 34, 58, 34, 83, 116, 114, 105, 110, 103, 34, 44, 34, 118, 97, 108, 117, 101, 34, 58, 34, 102, 111, 111, 34, 125, 10];
+  print(Rlp.encode(input2));
+
+
+  /*
   final arguments = [
     CadenceValue(value: "foo", type: CadenceType.String)
   ];
@@ -18,7 +26,7 @@ void main() {
 
   print(utf8.decode([123,34, 116, 121, 112, 101, 34, 58, 34, 83, 116, 114, 105, 110, 103, 34, 44, 34, 118, 97, 108, 117, 101, 34, 58, 34, 102, 111, 111, 34, 125, 10,]));
 
-  /*
+
   final code = '''transaction { execute { log("Hello, World!") } }''';
   final fullAddress = "0x"+"01".padLeft(16, '0');
   final address = Address(fullAddress);
@@ -62,5 +70,5 @@ void main() {
   final payloadSignature = new Digest('SHA-3/256').process(Uint8List.fromList(rlpEncoded));
   print(payloadSignature);
 
-   */
+  */
 }

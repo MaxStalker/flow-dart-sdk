@@ -119,7 +119,7 @@ void main() {
       final tx = baseTransaction();
       final arguments = [
         CadenceValue(value: "foo", type: CadenceType.String),
-        CadenceValue(value: 42,type: CadenceType.Int)
+        CadenceValue(value: 42, type: CadenceType.Int)
       ];
       final args = prepareArguments(arguments);
       tx.arguments.insertAll(0, args);
