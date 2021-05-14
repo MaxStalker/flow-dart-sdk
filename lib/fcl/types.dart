@@ -17,12 +17,14 @@ class CadenceValue {
 
   CadenceValue({this.value, this.type});
 
+  /// TODO: ensure that value is properly reconstructed from JSON to specific
+  /// format, because JSON-CDC encodes everything to strings - including numbers
   CadenceValue.fromJson(Map<String, dynamic> json)
       : type = enumFromString(CadenceType.values, json['type']),
         value = json['value'];
 
   Map<String, dynamic> toJson() =>
-      {'type': type.toString().split('.').last, 'value': value};
+      {'type': type.toString().split('.').last, 'value': value.toString()};
 
   String toJsonString() {
     // TODO: Investigate if it will work without newline character
