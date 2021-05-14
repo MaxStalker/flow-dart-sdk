@@ -4,12 +4,15 @@ import 'dart:convert';
 import 'package:convert/convert.dart';
 
 import 'package:fixnum/fixnum.dart';
+import 'package:flow_dart_sdk/fcl/crypto.dart';
 import 'package:flow_dart_sdk/fcl/encode.dart';
 import 'package:flow_dart_sdk/fcl/types.dart';
 import 'package:flow_dart_sdk/src/cadenceUtils.dart';
 import 'package:flow_dart_sdk/src/generated/flow/entities/transaction.pb.dart';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pointycastle/ecc/curves/prime256v1.dart';
+import 'package:pointycastle/export.dart';
 import 'package:rlp/rlp.dart';
 import 'package:convert/convert.dart';
 import 'package:pointycastle/pointycastle.dart';
@@ -127,6 +130,35 @@ void main() {
       final actual = hex.encode(payloadToMessage(tx));
       final reference = "f8b1b07472616e73616374696f6e207b2065786563757465207b206c6f67282248656c6c6f2c20576f726c64212229207d207df83ea07b2274797065223a22537472696e67222c2276616c7565223a22666f6f227d0a9c7b2274797065223a22496e74222c2276616c7565223a223432227d0aa0f0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b2a880000000000000001040a880000000000000001c9880000000000000001";
       expect(actual, reference);
+    });
+
+    test("signer", (){
+
+      final message = "Hello, Cadence";
+      final hashAlgo = "SHA3-256";
+      final sigAlgo = '$hashAlgo/DET-ECDSA';
+
+      /*
+      final hexInput = hex.encode(message.codeUnits);
+      expect(hexInput, "48656c6c6f2c20436164656e6365");
+
+      // Hashing
+
+      final sha = Digest(hashAlgo);
+      final hash = sha.process(Uint8List.fromList(message.codeUnits));
+      print(hash);
+
+       */
+
+      final keyPair= prime256v1KeyPair();
+      final signer = Signer('$hashAlgo/DET-ECDSA');
+
+      signer.init(true, PrivateKeyParameter(keyPair.privateKey));
+      print(signer.algorithmName);
+
+      final signature = signer.generateSignature(Uint8List.fromList(message.codeUnits));
+      print(signature);
+      // var contractAddress = hex.encode(out.sublist(12));
     });
   });
 }
