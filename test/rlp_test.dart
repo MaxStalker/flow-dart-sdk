@@ -16,6 +16,7 @@ import 'package:pointycastle/export.dart';
 import 'package:rlp/rlp.dart';
 import 'package:convert/convert.dart';
 import 'package:pointycastle/pointycastle.dart';
+import 'package:cryptography/cryptography.dart';
 
 Transaction baseTransaction() {
   final script =
@@ -178,6 +179,52 @@ void main() {
       print(signature);
 
       // var contractAddress = hex.encode(out.sublist(12));
+    });
+
+    test("RSA Signer", (){
+      final pair = generateRSAkeyPair(exampleSecureRandom());
+      final public = pair.publicKey;
+      final private = pair.privateKey;
+
+      final signature = rsaSign(private, Uint8List.fromList("hello, world".codeUnits));
+      print(signature);
+    });
+
+    test("ECDASigner", (){
+
+      // NormalizedECDSASigner(Signer('SHA-3/DET-ECDSA') as ECDSASigner)
+
+      var eccDomain = ECDomainParameters('prime256v1');
+      var d = BigInt.parse(
+          '3062713166230336928689662410859599564103408831862304472446');
+      var privParams = PrivateKeyParameter(ECPrivateKey(d, eccDomain));
+      var signParams = ParametersWithRandom(privParams, NullSecureRandom());
+
+      var signer = Signer("SHA3-256/DET-ECDSA");
+      print(signer.algorithmName);
+
+      signer.reset();
+      signer.init(true, signParams);
+      var signature = signer.generateSignature(createUint8ListFromString("Hello, Cadence"));
+      print(signature);
+
+      /*
+      final pair = prime256v1KeyPair();
+      final private = pair.privateKey as ECPrivateKey;
+
+      print(private.d);
+      print(private.d.toRadixString(16));
+
+      final hash = Digest("SHA3-256").process(createUint8ListFromString("hello, world!"));
+
+      final signature = ecSign(private, hash);
+      print(signature);
+
+       */
+    });
+
+    test("cryptography signer", () async{
+
     });
   });
 }

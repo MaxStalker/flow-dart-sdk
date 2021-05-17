@@ -11,17 +11,18 @@ environment:
 dependencies:
   convert: 2.1.1
   async: ^2.2.0
-  protobuf: ^1.0.1
-  crypto: ^2.1.4
-  googleapis_auth: ^0.2.7
+  protobuf: ^2.0.0
+  crypto: ^3.0.0
+  googleapis_auth: ^1.0.0
   meta: ^1.1.6
-  http: ^0.12.0
-  http2: ^1.0.0
-  grpc: 2.3.0
+  http: ^0.13.0
+  http2: ^2.0.0
+  grpc: 3.0.0
 
   # Crypto
   pointycastle: ^3.0.1
   rlp: ^1.0.1
+  cryptography: ^2.0.1
 
   flutter:
     sdk: flutter
