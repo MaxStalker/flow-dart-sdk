@@ -1,15 +1,16 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:convert/convert.dart';
+import 'dart:core';
 
 import 'package:fixnum/fixnum.dart';
+import 'package:flow_dart_sdk/fcl/crypto.dart';
 
 import 'package:grpc/grpc.dart';
 import 'package:grpc/grpc_connection_interface.dart';
 import 'package:flow_dart_sdk/fcl/constants.dart';
+import 'package:rlp/rlp.dart';
 
 // Crypto
-import 'package:pointycastle/pointycastle.dart';
 
 // Local utilities
 import 'package:flow_dart_sdk/fcl/format.dart';
@@ -19,6 +20,10 @@ import 'package:flow_dart_sdk/src/cadenceUtils.dart';
 // Flow protobuf
 import 'package:flow_dart_sdk/src/generated/flow/access/access.pbgrpc.dart';
 import 'package:flow_dart_sdk/src/generated/flow/entities/transaction.pb.dart';
+
+
+
+
 
 class FlowClient {
   String endPoint;
@@ -139,7 +144,6 @@ class FlowClient {
     final latestBlock = await this.getBlock();
 
     final payerAddress = SERVICE_ACCOUNT;
-    //final payerAddress = "179b6b1cb6755e31";
     final payer = hex.decode(payerAddress);
 
     final accountResponse = await this.getAccount(payerAddress);
@@ -147,13 +151,12 @@ class FlowClient {
     final keyId = 0;
     final sequenceNumber = account.keys[keyId].sequenceNumber;
 
-    print(sequenceNumber);
 
     final proposalKey = Transaction_ProposalKey()
       ..address = payer
       ..sequenceNumber = Int64(sequenceNumber)
-      ..keyId = 0;
-
+      ..keyId = keyId;
+      
     // Prepare Transaction
     final transaction = Transaction()
       ..payer = payer
@@ -162,29 +165,41 @@ class FlowClient {
       ..proposalKey = proposalKey
       ..gasLimit = fixedGasLimit;
 
-    // TODO: implement signatures
-    // reference GO implementation here:
-    // https://github.com/onflow/flow-go-sdk/blob/878e5e586e0f060b88c6036cf4b0f6a7ab66d198/transaction.go#L90
-    // signEnvelope:
-    // https://github.com/onflow/flow-go-sdk/blob/878e5e586e0f060b88c6036cf4b0f6a7ab66d198/transaction.go#L306
-    final txSignature = utf8.encode("hello");
+    transaction.arguments.insertAll(0, args);
+    transaction.authorizers.insertAll(0, [payer]); 
 
+
+//SIGNING 
+
+    var payloadCanonicalForm = getPayloadCanonical(transaction);
+    var payloadSignaturesCanonical = [];
+
+    //sign payload 
+    signPayload(transaction, transaction.proposalKey.address, SERVICE_ACCOUNT_PRIVATE_KEY, 0, payloadSignaturesCanonical);
+    signPayload(transaction, payer, SERVICE_ACCOUNT_PRIVATE_KEY, 0, payloadSignaturesCanonical);
+    transaction.authorizers.forEach((element) {
+        signPayload(transaction, element, SERVICE_ACCOUNT_PRIVATE_KEY, 0,payloadSignaturesCanonical);
+      }
+    );
+
+    final envelopeCanonicalForm = [
+      payloadCanonicalForm,
+      payloadSignaturesCanonical
+    ];
+
+    final rlpEnvelope = Rlp.encode(envelopeCanonicalForm);
+  
+    var finalSignature = signData(rlpEnvelope, SERVICE_ACCOUNT_PRIVATE_KEY, "FLOW-V0.0-transaction");
 
     final payerSignature = Transaction_Signature()
       ..address = payer
       ..keyId = keyId
-      ..signature = txSignature;
+      ..signature = finalSignature;
 
-    final evenlopeSignatures = [payerSignature];
-    // final payloadSignatures = [payerSignature];
+    final envelopeSignatures = [payerSignature];
 
-    transaction.arguments.insertAll(0, args);
-    transaction.authorizers.insertAll(0, [payer]); // check if this is even necessary...
-    // transaction.payloadSignatures.insertAll(0, payloadSignatures);
-    transaction.envelopeSignatures.insertAll(0, evenlopeSignatures);
-
-
-
+    transaction.envelopeSignatures.insertAll(0, envelopeSignatures);
+    
     // Submit transaction to network
     final request = SendTransactionRequest()..transaction = transaction;
 
