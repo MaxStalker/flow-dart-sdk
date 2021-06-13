@@ -9,7 +9,7 @@ void main() async{
 
   final code = '''
     transaction{
-      prepare(){
+      prepare(ac: AuthAccount){
         log("hello")
       }
     }
