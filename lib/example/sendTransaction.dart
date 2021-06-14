@@ -9,8 +9,8 @@ void main() async{
 
   final code = '''
     transaction{
-      prepare(){
-        log("hello")
+      prepare(signer: AuthAccount){
+        log("Done!");
       }
     }
   ''';
