@@ -6,7 +6,7 @@ import 'package:flow_dart_sdk/fcl/utils.dart';
 import 'package:flow_dart_sdk/src/generated/flow/entities/transaction.pb.dart';
 import 'package:rlp/rlp.dart';
 
-dynamic payloadToMessage(Transaction tx) {
+List<dynamic> transactionPayload(Transaction tx) {
   final code = utf8.decode(tx.script);
   final arguments = tx.arguments.map((e) => utf8.decode(e)).toList();
   final refBlockId = toBlockId(tx.referenceBlockId);
@@ -29,12 +29,26 @@ dynamic payloadToMessage(Transaction tx) {
     authorizers
   ];
 
+  return payload;
+}
+
+List<int> transcationPayloadEncoded(Transaction tx){
+  final payload = transactionPayload(tx);
   return Rlp.encode(payload);
 }
 
-/*
-dynamic preparePayload(dynamic transaction){
+List<int> foldEnvelope(List<dynamic> payload, Transaction tx) {
+  final payload = transactionPayload(tx);
 
-  return 42;
+  final payloadSignatures = tx.payloadSignatures.asMap().entries.map((entry) {
+    return [
+      entry.key,
+      entry.value.keyId,
+      String.fromCharCodes(entry.value.signature)
+    ];
+  }).toList();
+
+  final canonicalEnvelope = [payload, payloadSignatures];
+
+  return Rlp.encode(canonicalEnvelope);
 }
- */
