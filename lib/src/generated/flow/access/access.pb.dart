@@ -4,7 +4,7 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../../google/timestamp.pb.dart' as $2;
+import '../../timestamp.pb.dart' as $2;
 import '../entities/account.pb.dart' as $9;
 import '../entities/block.pb.dart' as $6;
 import '../entities/block_header.pb.dart' as $5;

@@ -10,7 +10,7 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../../google/protobuf/timestamp.pb.dart' as $2;
+import '../../timestamp.pb.dart' as $2;
 
 class BlockHeader extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('BlockHeader', package: const $pb.PackageName('flow.entities'), createEmptyInstance: create)

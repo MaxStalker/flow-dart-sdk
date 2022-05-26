@@ -10,7 +10,7 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../../google/protobuf/timestamp.pb.dart' as $2;
+import '../../timestamp.pb.dart' as $2;
 import 'collection.pb.dart' as $3;
 import 'block_seal.pb.dart' as $4;
 
