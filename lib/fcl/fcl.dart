@@ -1,26 +1,19 @@
 import 'dart:convert';
-import 'dart:ffi';
+
 import 'package:convert/convert.dart';
-
 import 'package:fixnum/fixnum.dart';
-import 'package:flow_dart_sdk/fcl/encode.dart';
-
-import 'package:grpc/grpc.dart';
-import 'package:grpc/grpc_connection_interface.dart';
 import 'package:flow_dart_sdk/fcl/constants.dart';
-
-// Crypto
-import 'package:pointycastle/pointycastle.dart';
-
+import 'package:flow_dart_sdk/fcl/crypto.dart';
+import 'package:flow_dart_sdk/fcl/encode.dart';
 // Local utilities
 import 'package:flow_dart_sdk/fcl/format.dart';
 import 'package:flow_dart_sdk/fcl/types.dart';
 import 'package:flow_dart_sdk/src/cadenceUtils.dart';
-import 'package:flow_dart_sdk/fcl/crypto.dart';
-
 // Flow protobuf
 import 'package:flow_dart_sdk/src/generated/flow/access/access.pbgrpc.dart';
 import 'package:flow_dart_sdk/src/generated/flow/entities/transaction.pb.dart';
+import 'package:grpc/grpc.dart';
+import 'package:grpc/grpc_connection_interface.dart';
 import 'package:rlp/rlp.dart';
 
 class FlowClient {
@@ -165,7 +158,7 @@ class FlowClient {
 
     transaction.arguments.insertAll(0, args);
     transaction.authorizers.insertAll(0, [payer]);
-    
+
     // Signing
     final payload = transactionPayload(transaction);
     final rlpPayload = Rlp.encode(payload);
@@ -173,13 +166,16 @@ class FlowClient {
 
     // Sign payload
     // Proposer
-    signPayload(transaction, rlpPayload, transaction.proposalKey.address, privateKey, keyId, payloadSignatures);
+    signPayload(transaction, rlpPayload, transaction.proposalKey.address,
+        privateKey, keyId, payloadSignatures);
     // Payer
-    signPayload(transaction, rlpPayload, payer, privateKey, keyId, payloadSignatures);
+    signPayload(
+        transaction, rlpPayload, payer, privateKey, keyId, payloadSignatures);
 
     // Authorizers
     transaction.authorizers.forEach((authorizer) {
-      signPayload(transaction, rlpPayload, authorizer, privateKey, keyId, payloadSignatures);
+      signPayload(transaction, rlpPayload, authorizer, privateKey, keyId,
+          payloadSignatures);
     });
 
     // Lastly Payer signs envelope
