@@ -1,9 +1,11 @@
 import 'dart:convert';
+
 import 'package:flow_dart_sdk/fcl/utils.dart';
 
 // TODO: Reformat to CadenceValue similar to Go
 
 enum CadenceType {
+  Address,
   String,
   Int,
   Int8,
