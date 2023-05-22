@@ -17,7 +17,7 @@ class CadenceValue {
   final CadenceType type;
   dynamic value;
 
-  CadenceValue({this.value, this.type});
+  CadenceValue({this.value, required this.type});
 
   /// TODO: ensure that value is properly reconstructed from JSON to specific
   /// format, because JSON-CDC encodes everything to strings - including numbers

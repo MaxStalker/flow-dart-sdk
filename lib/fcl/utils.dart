@@ -4,8 +4,7 @@ import 'package:convert/convert.dart';
 import 'package:flow_dart_sdk/fcl/constants.dart';
 
 T enumFromString<T>(List<T> values, String value) {
-  return values.firstWhere((v) => v.toString().split('.')[1] == value,
-      orElse: () => null);
+  return values.firstWhere((v) => v.toString().split('.')[1] == value);
 }
 
 String padLeft(int size, String value) {

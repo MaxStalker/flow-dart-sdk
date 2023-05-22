@@ -10,18 +10,20 @@ import 'package:flow_dart_sdk/fcl/format.dart';
 import 'package:flow_dart_sdk/fcl/types.dart';
 import 'package:flow_dart_sdk/src/cadenceUtils.dart';
 // Flow protobuf
-import 'package:flow_dart_sdk/src/generated/flow/access/access.pbgrpc.dart';
+import 'package:flow_dart_sdk/src/generated/flow/access/access.pb.dart';
 import 'package:flow_dart_sdk/src/generated/flow/entities/transaction.pb.dart';
 import 'package:grpc/grpc.dart';
 import 'package:grpc/grpc_connection_interface.dart';
 import 'package:rlp/rlp.dart';
 
+import '../src/generated/flow/access/access.pbgrpc.dart';
+
 class FlowClient {
   String endPoint;
   int port;
-  ClientChannelBase channel;
+  late ClientChannelBase channel;
 
-  AccessAPIClient accessClient;
+  AccessAPIClient? accessClient;
 
   static const String MOBILE_EMULATOR_ENDPOINT = '10.0.2.2';
   static const int FLOW_EMULATOR_PORT = 3569;
@@ -36,7 +38,7 @@ class FlowClient {
       );
   }
 
-  AccessAPIClient getAccessClient() {
+  AccessAPIClient? getAccessClient() {
     if (accessClient == null) {
       this.accessClient = AccessAPIClient(this.channel,
           options: CallOptions(timeout: Duration(seconds: 2)));
@@ -44,7 +46,7 @@ class FlowClient {
     return this.accessClient;
   }
 
-  Future<AccountResponse> getAccount(String address, {Int64 height}) async {
+  Future<AccountResponse> getAccount(String address, {Int64? height}) async {
     /* TODO: Implement at later stage
     var blockHeight = height;
     if (height == null) {
@@ -57,9 +59,13 @@ class FlowClient {
       ..address = hex.decode(address);
 
      */
+    final client = this.getAccessClient();
+    if (client == null) {
+      throw Exception("Access client could not be initialized");
+    }
     final request = GetAccountAtLatestBlockRequest()
       ..address = hex.decode(address);
-    return this.getAccessClient().getAccountAtLatestBlock(request);
+    return client.getAccountAtLatestBlock(request);
   }
 
   /// Gets account FLOW balance as string.
@@ -69,8 +75,11 @@ class FlowClient {
   }
 
   /// Gets block at specified [height] or latest available.
-  Future<BlockResponse> getBlock({Int64 height}) {
+  Future<BlockResponse> getBlock({Int64? height}) {
     final client = this.getAccessClient();
+    if (client == null) {
+      throw Exception("Access client could not be initialized");
+    }
     if (height == null) {
       return client.getLatestBlock(GetLatestBlockRequest());
     }
@@ -88,9 +97,13 @@ class FlowClient {
 
   /// Executes [code][ script at specified [height] or [blockId].
   Future<ExecuteScriptResponse> executeScript(String code,
-      {List<CadenceValue> arguments, Int64 height, List<int> blockId}) async {
+      {List<CadenceValue>? arguments,
+      Int64? height,
+      List<int>? blockId}) async {
     final client = this.getAccessClient();
-
+    if (client == null) {
+      throw Exception("Access client could not be initialized");
+    }
     final args = prepareArguments(arguments);
 
     // If blockId is specified, we shall execute it there
@@ -109,6 +122,9 @@ class FlowClient {
       blockHeight = await this.getBlockHeight();
     }
 
+    if (blockHeight == null) {
+      throw Exception("Block height is not specified");
+    }
     final request = ExecuteScriptAtBlockHeightRequest()
       ..blockHeight = blockHeight
       ..script = utf8.encode(code);
@@ -120,8 +136,11 @@ class FlowClient {
 
   /// Submits transaction to network.
   Future<SendTransactionResponse> sendTransaction(String code,
-      {List<CadenceValue> arguments, Int64 gasLimit}) async {
+      {List<CadenceValue>? arguments, Int64? gasLimit}) async {
     final client = this.getAccessClient();
+    if (client == null) {
+      throw Exception("Access client could not be initialized");
+    }
 
     // Convert arguments to required format
     final args = prepareArguments(arguments);
@@ -179,7 +198,7 @@ class FlowClient {
     });
 
     // Lastly Payer signs envelope
-    final envelope = foldEnvelope(payload, transaction);
+    final envelope = foldEnvelope(transaction);
 
     final envelopeSignature = Transaction_Signature()
       ..address = payer
@@ -196,15 +215,17 @@ class FlowClient {
 
   /// Gets events of [eventName] type emitted in range from [rangeStart] to [rangeEnd].
   Future<EventsResponse> getEventsInRange(String eventName,
-      {Int64 rangeStart, Int64 rangeEnd, Int64 rangeSize}) {
-    // TODO: allow to skip some
-
+      {required Int64 rangeStart, required Int64 rangeEnd}) {
+    final client = this.getAccessClient();
+    if (client == null) {
+      throw Exception("Access client could not be initialized");
+    }
     final request = GetEventsForHeightRangeRequest()
       ..type = eventName
       ..startHeight = rangeStart
       ..endHeight = rangeEnd;
 
-    return this.getAccessClient().getEventsForHeightRange(request);
+    return client.getEventsForHeightRange(request);
   }
 
   /// Decodes result of script execution into Map.
