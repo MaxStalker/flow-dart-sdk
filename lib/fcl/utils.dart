@@ -1,10 +1,10 @@
-import 'package:rlp/rlp.dart';
+import 'dart:typed_data';
+
 import 'package:convert/convert.dart';
 import 'package:flow_dart_sdk/fcl/constants.dart';
 
 T enumFromString<T>(List<T> values, String value) {
-  return values.firstWhere((v) => v.toString().split('.')[1] == value,
-      orElse: () => null);
+  return values.firstWhere((v) => v.toString().split('.')[1] == value);
 }
 
 String padLeft(int size, String value) {
@@ -31,4 +31,22 @@ Address toAddress(List<int> address) {
 
 Address toBlockId(List<int> blockId) {
   return Address("0x" + padLeft(BLOCK_ID_BYTE_LENGTH, hex.encode(blockId)));
+}
+
+class Address {
+  /// Internal string representation of the address (with leading 0x)
+  String _address;
+
+  /// Address
+  Address(this._address);
+
+  /// Encode the address as a 20 byte Uint8List
+  Uint8List toBytes() {
+    return Uint8List.fromList(hex.decode(_address.substring(2)))
+      ..sublist(0, 20);
+  }
+
+  String toString() {
+    return this._address;
+  }
 }

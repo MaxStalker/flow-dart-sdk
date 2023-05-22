@@ -1,7 +1,5 @@
-import 'dart:ffi';
 import 'dart:convert';
-import 'dart:ffi';
-import 'package:convert/convert.dart';
+
 import 'package:flow_dart_sdk/fcl/utils.dart';
 import 'package:flow_dart_sdk/src/generated/flow/entities/transaction.pb.dart';
 import 'package:rlp/rlp.dart';
@@ -32,12 +30,12 @@ List<dynamic> transactionPayload(Transaction tx) {
   return payload;
 }
 
-List<int> transcationPayloadEncoded(Transaction tx){
+List<int> transcationPayloadEncoded(Transaction tx) {
   final payload = transactionPayload(tx);
   return Rlp.encode(payload);
 }
 
-List<int> foldEnvelope(List<dynamic> payload, Transaction tx) {
+List<int> foldEnvelope(Transaction tx) {
   final payload = transactionPayload(tx);
 
   final payloadSignatures = tx.payloadSignatures.asMap().entries.map((entry) {

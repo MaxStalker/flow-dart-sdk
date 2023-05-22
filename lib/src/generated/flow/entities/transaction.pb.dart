@@ -2,8 +2,8 @@
 //  Generated code. Do not modify.
 //  source: flow/entities/transaction.proto
 //
-// @dart = 2.3
-// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
+// @dart = 2.12
+// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
 
 import 'dart:core' as $core;
 
@@ -13,19 +13,43 @@ import 'package:protobuf/protobuf.dart' as $pb;
 export 'transaction.pbenum.dart';
 
 class Transaction_ProposalKey extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Transaction.ProposalKey', package: const $pb.PackageName('flow.entities'), createEmptyInstance: create)
-    ..a<$core.List<$core.int>>(1, 'address', $pb.PbFieldType.OY)
-    ..a<$core.int>(2, 'keyId', $pb.PbFieldType.OU3)
-    ..a<$fixnum.Int64>(3, 'sequenceNumber', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Transaction.ProposalKey', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'flow.entities'), createEmptyInstance: create)
+    ..a<$core.List<$core.int>>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'address', $pb.PbFieldType.OY)
+    ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'keyId', $pb.PbFieldType.OU3)
+    ..a<$fixnum.Int64>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'sequenceNumber', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
     ..hasRequiredFields = false
   ;
 
   Transaction_ProposalKey._() : super();
-  factory Transaction_ProposalKey() => create();
+  factory Transaction_ProposalKey({
+    $core.List<$core.int>? address,
+    $core.int? keyId,
+    $fixnum.Int64? sequenceNumber,
+  }) {
+    final _result = create();
+    if (address != null) {
+      _result.address = address;
+    }
+    if (keyId != null) {
+      _result.keyId = keyId;
+    }
+    if (sequenceNumber != null) {
+      _result.sequenceNumber = sequenceNumber;
+    }
+    return _result;
+  }
   factory Transaction_ProposalKey.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory Transaction_ProposalKey.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
   Transaction_ProposalKey clone() => Transaction_ProposalKey()..mergeFromMessage(this);
-  Transaction_ProposalKey copyWith(void Function(Transaction_ProposalKey) updates) => super.copyWith((message) => updates(message as Transaction_ProposalKey));
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Transaction_ProposalKey copyWith(void Function(Transaction_ProposalKey) updates) => super.copyWith((message) => updates(message as Transaction_ProposalKey)) as Transaction_ProposalKey; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Transaction_ProposalKey create() => Transaction_ProposalKey._();
@@ -33,7 +57,7 @@ class Transaction_ProposalKey extends $pb.GeneratedMessage {
   static $pb.PbList<Transaction_ProposalKey> createRepeated() => $pb.PbList<Transaction_ProposalKey>();
   @$core.pragma('dart2js:noInline')
   static Transaction_ProposalKey getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Transaction_ProposalKey>(create);
-  static Transaction_ProposalKey _defaultInstance;
+  static Transaction_ProposalKey? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<$core.int> get address => $_getN(0);
@@ -64,19 +88,43 @@ class Transaction_ProposalKey extends $pb.GeneratedMessage {
 }
 
 class Transaction_Signature extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Transaction.Signature', package: const $pb.PackageName('flow.entities'), createEmptyInstance: create)
-    ..a<$core.List<$core.int>>(1, 'address', $pb.PbFieldType.OY)
-    ..a<$core.int>(2, 'keyId', $pb.PbFieldType.OU3)
-    ..a<$core.List<$core.int>>(3, 'signature', $pb.PbFieldType.OY)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Transaction.Signature', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'flow.entities'), createEmptyInstance: create)
+    ..a<$core.List<$core.int>>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'address', $pb.PbFieldType.OY)
+    ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'keyId', $pb.PbFieldType.OU3)
+    ..a<$core.List<$core.int>>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'signature', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
   Transaction_Signature._() : super();
-  factory Transaction_Signature() => create();
+  factory Transaction_Signature({
+    $core.List<$core.int>? address,
+    $core.int? keyId,
+    $core.List<$core.int>? signature,
+  }) {
+    final _result = create();
+    if (address != null) {
+      _result.address = address;
+    }
+    if (keyId != null) {
+      _result.keyId = keyId;
+    }
+    if (signature != null) {
+      _result.signature = signature;
+    }
+    return _result;
+  }
   factory Transaction_Signature.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory Transaction_Signature.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
   Transaction_Signature clone() => Transaction_Signature()..mergeFromMessage(this);
-  Transaction_Signature copyWith(void Function(Transaction_Signature) updates) => super.copyWith((message) => updates(message as Transaction_Signature));
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Transaction_Signature copyWith(void Function(Transaction_Signature) updates) => super.copyWith((message) => updates(message as Transaction_Signature)) as Transaction_Signature; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Transaction_Signature create() => Transaction_Signature._();
@@ -84,7 +132,7 @@ class Transaction_Signature extends $pb.GeneratedMessage {
   static $pb.PbList<Transaction_Signature> createRepeated() => $pb.PbList<Transaction_Signature>();
   @$core.pragma('dart2js:noInline')
   static Transaction_Signature getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Transaction_Signature>(create);
-  static Transaction_Signature _defaultInstance;
+  static Transaction_Signature? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<$core.int> get address => $_getN(0);
@@ -115,25 +163,73 @@ class Transaction_Signature extends $pb.GeneratedMessage {
 }
 
 class Transaction extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Transaction', package: const $pb.PackageName('flow.entities'), createEmptyInstance: create)
-    ..a<$core.List<$core.int>>(1, 'script', $pb.PbFieldType.OY)
-    ..p<$core.List<$core.int>>(2, 'arguments', $pb.PbFieldType.PY)
-    ..a<$core.List<$core.int>>(3, 'referenceBlockId', $pb.PbFieldType.OY)
-    ..a<$fixnum.Int64>(4, 'gasLimit', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
-    ..aOM<Transaction_ProposalKey>(5, 'proposalKey', subBuilder: Transaction_ProposalKey.create)
-    ..a<$core.List<$core.int>>(6, 'payer', $pb.PbFieldType.OY)
-    ..p<$core.List<$core.int>>(7, 'authorizers', $pb.PbFieldType.PY)
-    ..pc<Transaction_Signature>(8, 'payloadSignatures', $pb.PbFieldType.PM, subBuilder: Transaction_Signature.create)
-    ..pc<Transaction_Signature>(9, 'envelopeSignatures', $pb.PbFieldType.PM, subBuilder: Transaction_Signature.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Transaction', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'flow.entities'), createEmptyInstance: create)
+    ..a<$core.List<$core.int>>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'script', $pb.PbFieldType.OY)
+    ..p<$core.List<$core.int>>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'arguments', $pb.PbFieldType.PY)
+    ..a<$core.List<$core.int>>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'referenceBlockId', $pb.PbFieldType.OY)
+    ..a<$fixnum.Int64>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'gasLimit', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
+    ..aOM<Transaction_ProposalKey>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'proposalKey', subBuilder: Transaction_ProposalKey.create)
+    ..a<$core.List<$core.int>>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'payer', $pb.PbFieldType.OY)
+    ..p<$core.List<$core.int>>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'authorizers', $pb.PbFieldType.PY)
+    ..pc<Transaction_Signature>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'payloadSignatures', $pb.PbFieldType.PM, subBuilder: Transaction_Signature.create)
+    ..pc<Transaction_Signature>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'envelopeSignatures', $pb.PbFieldType.PM, subBuilder: Transaction_Signature.create)
     ..hasRequiredFields = false
   ;
 
   Transaction._() : super();
-  factory Transaction() => create();
+  factory Transaction({
+    $core.List<$core.int>? script,
+    $core.Iterable<$core.List<$core.int>>? arguments,
+    $core.List<$core.int>? referenceBlockId,
+    $fixnum.Int64? gasLimit,
+    Transaction_ProposalKey? proposalKey,
+    $core.List<$core.int>? payer,
+    $core.Iterable<$core.List<$core.int>>? authorizers,
+    $core.Iterable<Transaction_Signature>? payloadSignatures,
+    $core.Iterable<Transaction_Signature>? envelopeSignatures,
+  }) {
+    final _result = create();
+    if (script != null) {
+      _result.script = script;
+    }
+    if (arguments != null) {
+      _result.arguments.addAll(arguments);
+    }
+    if (referenceBlockId != null) {
+      _result.referenceBlockId = referenceBlockId;
+    }
+    if (gasLimit != null) {
+      _result.gasLimit = gasLimit;
+    }
+    if (proposalKey != null) {
+      _result.proposalKey = proposalKey;
+    }
+    if (payer != null) {
+      _result.payer = payer;
+    }
+    if (authorizers != null) {
+      _result.authorizers.addAll(authorizers);
+    }
+    if (payloadSignatures != null) {
+      _result.payloadSignatures.addAll(payloadSignatures);
+    }
+    if (envelopeSignatures != null) {
+      _result.envelopeSignatures.addAll(envelopeSignatures);
+    }
+    return _result;
+  }
   factory Transaction.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory Transaction.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
   Transaction clone() => Transaction()..mergeFromMessage(this);
-  Transaction copyWith(void Function(Transaction) updates) => super.copyWith((message) => updates(message as Transaction));
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Transaction copyWith(void Function(Transaction) updates) => super.copyWith((message) => updates(message as Transaction)) as Transaction; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Transaction create() => Transaction._();
@@ -141,7 +237,7 @@ class Transaction extends $pb.GeneratedMessage {
   static $pb.PbList<Transaction> createRepeated() => $pb.PbList<Transaction>();
   @$core.pragma('dart2js:noInline')
   static Transaction getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Transaction>(create);
-  static Transaction _defaultInstance;
+  static Transaction? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<$core.int> get script => $_getN(0);
