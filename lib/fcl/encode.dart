@@ -1,19 +1,19 @@
 import 'dart:convert';
 
-import 'package:flow_dart_sdk/fcl/utils.dart';
+import 'package:flow_dart_sdk/fcl/rlp/address.dart';
 import 'package:flow_dart_sdk/src/generated/flow/entities/transaction.pb.dart';
 import 'package:rlp/rlp.dart';
 
 List<dynamic> transactionPayload(Transaction tx) {
   final code = utf8.decode(tx.script);
   final arguments = tx.arguments.map((e) => utf8.decode(e)).toList();
-  final refBlockId = toBlockId(tx.referenceBlockId);
+  final refBlockId = Address.toBlockId(tx.referenceBlockId);
   final gasLimit = tx.gasLimit.hashCode;
-  final proposerAddress = toAddress(tx.proposalKey.address);
-  final payerAddress = toAddress(tx.payer);
+  final proposerAddress = Address.toAddress(tx.proposalKey.address);
+  final payerAddress = Address.toAddress(tx.payer);
   final keyId = tx.proposalKey.keyId;
   final sequenceNumber = tx.proposalKey.sequenceNumber.hashCode;
-  final authorizers = tx.authorizers.map(toAddress).toList();
+  final authorizers = tx.authorizers.map(Address.toAddress).toList();
 
   final payload = [
     code,

@@ -10,7 +10,6 @@ import 'package:flow_dart_sdk/fcl/format.dart';
 import 'package:flow_dart_sdk/fcl/types.dart';
 import 'package:flow_dart_sdk/src/cadenceUtils.dart';
 // Flow protobuf
-import 'package:flow_dart_sdk/src/generated/flow/access/access.pb.dart';
 import 'package:flow_dart_sdk/src/generated/flow/entities/transaction.pb.dart';
 import 'package:grpc/grpc.dart';
 import 'package:grpc/grpc_connection_interface.dart';
@@ -132,6 +131,95 @@ class FlowClient {
     request.arguments.insertAll(0, args);
 
     return client.executeScriptAtBlockHeight(request);
+  }
+
+  Future<SendTransactionResponse> sendTransactionWithCustomSigning(
+      {required String cadence,
+      required String proposerAddress,
+      required String payerAddress,
+      required String authorizationAddress,
+      required Future<List<int>> Function(List<int> message, String cadence)
+          signMessageFunction,
+      List<CadenceValue>? arguments,
+      int gasLimit = 100}) async {
+    const tag = 'FLOW-V0.0-transaction';
+    final client = this.getAccessClient();
+    if (client == null) {
+      throw Exception("Access client could not be initialized");
+    }
+
+    // Convert arguments to required format
+    final args = prepareArguments(arguments);
+    var fixedGasLimit = Int64(gasLimit);
+
+    // final latestBlock = await this.getBlock();
+    final payer = hex.decode(payerAddress);
+    final accountResponse = await this.getAccount(payerAddress);
+    final account = accountResponse.account;
+    final keyId = 0;
+    final sequenceNumber = account.keys[keyId].sequenceNumber;
+
+    final proposalKey = Transaction_ProposalKey()
+      ..address = payer
+      ..sequenceNumber = Int64(sequenceNumber)
+      ..keyId = keyId;
+
+    // Prepare Transaction
+    final transaction = Transaction()
+      ..payer = payer
+      ..script = utf8.encode(cadence)
+      // ..referenceBlockId = latestBlock.block.id
+      ..proposalKey = proposalKey
+      ..gasLimit = fixedGasLimit;
+
+    transaction.arguments.insertAll(0, args);
+    transaction.authorizers.insertAll(0, [payer]);
+
+    // Signing
+    final payload = transactionPayload(transaction);
+    final rlpPayload = Rlp.encode(payload);
+    var payloadSignatures = [];
+
+    // Sign payload
+    // Proposer
+    // signPayload(transaction, rlpPayload, transaction.proposalKey.address,
+    //     privateKey, keyId, payloadSignatures);
+    // // Payer
+    // signPayload(
+    //     transaction, rlpPayload, payer, privateKey, keyId, payloadSignatures);
+    //
+    // // Authorizers
+    // transaction.authorizers.forEach((authorizer) {
+    //   signPayload(transaction, rlpPayload, authorizer, privateKey, keyId,
+    //       payloadSignatures);
+    // });
+
+    // Lastly Payer signs envelope
+    final envelope = foldEnvelope(transaction);
+    final envelopePayerSignature =
+        signMessageFunction(insertTag(DOMAIN_TAG, envelope), cadence);
+
+    final envelopeSignature = Transaction_Signature()
+      ..address = payer
+      ..keyId = keyId
+      ..signature = await envelopePayerSignature;
+
+    final envelopeSignatures = [envelopeSignature];
+    transaction.envelopeSignatures.insertAll(0, envelopeSignatures);
+
+    final request = SendTransactionRequest()..transaction = transaction;
+
+    return client.sendTransaction(request);
+  }
+
+  List<int> insertTag(String domainTag, List<int> input) {
+    List<int> data = [];
+    data.insertAll(0, input);
+
+    if (domainTag.length > 0) {
+      data.insertAll(0, utf8.encode(domainTag.padRight(32, "\x00")));
+    }
+    return data;
   }
 
   /// Submits transaction to network.
