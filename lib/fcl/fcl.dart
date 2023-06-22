@@ -13,11 +13,13 @@ import 'package:flow_dart_sdk/src/cadenceUtils.dart';
 import 'package:flow_dart_sdk/src/generated/flow/entities/transaction.pb.dart';
 import 'package:grpc/grpc.dart';
 import 'package:grpc/grpc_connection_interface.dart';
+import 'package:logging/logging.dart';
 import 'package:rlp/rlp.dart';
 
 import '../src/generated/flow/access/access.pbgrpc.dart';
 
 class FlowClient {
+  static final _log = Logger('FlowClient');
   String endPoint;
   int port;
   late ClientChannelBase channel;
@@ -40,7 +42,7 @@ class FlowClient {
   AccessAPIClient? getAccessClient() {
     if (accessClient == null) {
       this.accessClient = AccessAPIClient(this.channel,
-          options: CallOptions(timeout: Duration(seconds: 2)));
+          options: CallOptions(timeout: Duration(seconds: 20)));
     }
     return this.accessClient;
   }
@@ -148,11 +150,12 @@ class FlowClient {
       throw Exception("Access client could not be initialized");
     }
 
+    _log.info("Preparing transaction");
     // Convert arguments to required format
     final args = prepareArguments(arguments);
     var fixedGasLimit = Int64(gasLimit);
 
-    // final latestBlock = await this.getBlock();
+    final latestBlock = await this.getBlock();
     final payer = hex.decode(payerAddress);
     final accountResponse = await this.getAccount(payerAddress);
     final account = accountResponse.account;
@@ -168,13 +171,14 @@ class FlowClient {
     final transaction = Transaction()
       ..payer = payer
       ..script = utf8.encode(cadence)
-      // ..referenceBlockId = latestBlock.block.id
+      ..referenceBlockId = latestBlock.block.id
       ..proposalKey = proposalKey
       ..gasLimit = fixedGasLimit;
 
     transaction.arguments.insertAll(0, args);
     transaction.authorizers.insertAll(0, [payer]);
 
+    _log.info("Signing transaction");
     // Signing
     final payload = transactionPayload(transaction);
     final rlpPayload = Rlp.encode(payload);
@@ -196,19 +200,19 @@ class FlowClient {
 
     // Lastly Payer signs envelope
     final envelope = foldEnvelope(transaction);
-    final envelopePayerSignature =
-        signMessageFunction(insertTag(DOMAIN_TAG, envelope), cadence);
+    final envelopeSignatureResponse =
+        await signMessageFunction(insertTag(DOMAIN_TAG, envelope), cadence);
 
     final envelopeSignature = Transaction_Signature()
       ..address = payer
       ..keyId = keyId
-      ..signature = await envelopePayerSignature;
+      ..signature = envelopeSignatureResponse;
 
     final envelopeSignatures = [envelopeSignature];
     transaction.envelopeSignatures.insertAll(0, envelopeSignatures);
 
+    _log.info("Sending transaction");
     final request = SendTransactionRequest()..transaction = transaction;
-
     return client.sendTransaction(request);
   }
 
