@@ -10,6 +10,7 @@ enum CadenceType {
   Int,
   Int8,
   UInt,
+  UInt64,
   UFix64,
 }
 
