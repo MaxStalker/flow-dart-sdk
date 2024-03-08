@@ -15,7 +15,6 @@ func FormatUFix64(flow uint64) string {
 }
 */
 
-import 'dart:ffi';
 import 'package:fixnum/fixnum.dart';
 import 'package:flow_dart_sdk/fcl/constants.dart';
 
@@ -24,14 +23,14 @@ String _fixedPointToString(Int64 amount, num decimalPlaces) {
   final length = amountString.length;
 
   if (length < decimalPlaces) {
-    var padding = "0" * (decimalPlaces - length);
+    var padding = "0" * (decimalPlaces.toInt() - length);
     return '0.$padding$amountString';
   } else if (length == decimalPlaces) {
     return '0.$amountString';
   }
 
-  final intPart = amountString.substring(0, length - decimalPlaces);
-  final decimalPart = amountString.substring(length - decimalPlaces);
+  final intPart = amountString.substring(0, length - decimalPlaces.toInt());
+  final decimalPart = amountString.substring(length - decimalPlaces.toInt());
   return "$intPart.$decimalPart";
 }
 

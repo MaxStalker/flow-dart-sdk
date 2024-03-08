@@ -2,9 +2,13 @@
 //  Generated code. Do not modify.
 //  source: flow/entities/transaction.proto
 //
-// @dart = 2.3
-// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
+// @dart = 2.12
+// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,deprecated_member_use_from_same_package,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
 
+import 'dart:core' as $core;
+import 'dart:convert' as $convert;
+import 'dart:typed_data' as $typed_data;
+@$core.Deprecated('Use transactionStatusDescriptor instead')
 const TransactionStatus$json = const {
   '1': 'TransactionStatus',
   '2': const [
@@ -17,6 +21,9 @@ const TransactionStatus$json = const {
   ],
 };
 
+/// Descriptor for `TransactionStatus`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List transactionStatusDescriptor = $convert.base64Decode('ChFUcmFuc2FjdGlvblN0YXR1cxILCgdVTktOT1dOEAASCwoHUEVORElORxABEg0KCUZJTkFMSVpFRBACEgwKCEVYRUNVVEVEEAMSCgoGU0VBTEVEEAQSCwoHRVhQSVJFRBAF');
+@$core.Deprecated('Use transactionDescriptor instead')
 const Transaction$json = const {
   '1': 'Transaction',
   '2': const [
@@ -33,6 +40,7 @@ const Transaction$json = const {
   '3': const [Transaction_ProposalKey$json, Transaction_Signature$json],
 };
 
+@$core.Deprecated('Use transactionDescriptor instead')
 const Transaction_ProposalKey$json = const {
   '1': 'ProposalKey',
   '2': const [
@@ -42,6 +50,7 @@ const Transaction_ProposalKey$json = const {
   ],
 };
 
+@$core.Deprecated('Use transactionDescriptor instead')
 const Transaction_Signature$json = const {
   '1': 'Signature',
   '2': const [
@@ -51,3 +60,5 @@ const Transaction_Signature$json = const {
   ],
 };
 
+/// Descriptor for `Transaction`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List transactionDescriptor = $convert.base64Decode('CgtUcmFuc2FjdGlvbhIWCgZzY3JpcHQYASABKAxSBnNjcmlwdBIcCglhcmd1bWVudHMYAiADKAxSCWFyZ3VtZW50cxIsChJyZWZlcmVuY2VfYmxvY2tfaWQYAyABKAxSEHJlZmVyZW5jZUJsb2NrSWQSGwoJZ2FzX2xpbWl0GAQgASgEUghnYXNMaW1pdBJJCgxwcm9wb3NhbF9rZXkYBSABKAsyJi5mbG93LmVudGl0aWVzLlRyYW5zYWN0aW9uLlByb3Bvc2FsS2V5Ugtwcm9wb3NhbEtleRIUCgVwYXllchgGIAEoDFIFcGF5ZXISIAoLYXV0aG9yaXplcnMYByADKAxSC2F1dGhvcml6ZXJzElMKEnBheWxvYWRfc2lnbmF0dXJlcxgIIAMoCzIkLmZsb3cuZW50aXRpZXMuVHJhbnNhY3Rpb24uU2lnbmF0dXJlUhFwYXlsb2FkU2lnbmF0dXJlcxJVChNlbnZlbG9wZV9zaWduYXR1cmVzGAkgAygLMiQuZmxvdy5lbnRpdGllcy5UcmFuc2FjdGlvbi5TaWduYXR1cmVSEmVudmVsb3BlU2lnbmF0dXJlcxpnCgtQcm9wb3NhbEtleRIYCgdhZGRyZXNzGAEgASgMUgdhZGRyZXNzEhUKBmtleV9pZBgCIAEoDVIFa2V5SWQSJwoPc2VxdWVuY2VfbnVtYmVyGAMgASgEUg5zZXF1ZW5jZU51bWJlchpaCglTaWduYXR1cmUSGAoHYWRkcmVzcxgBIAEoDFIHYWRkcmVzcxIVCgZrZXlfaWQYAiABKA1SBWtleUlkEhwKCXNpZ25hdHVyZRgDIAEoDFIJc2lnbmF0dXJl');

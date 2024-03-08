@@ -1,24 +1,13 @@
 import 'dart:convert';
-import "dart:typed_data";
 import "dart:math";
+import "dart:typed_data";
+
 import 'package:flow_dart_sdk/fcl/constants.dart';
 import 'package:flow_dart_sdk/src/generated/flow/entities/transaction.pb.dart';
-import 'package:pointycastle/digests/sha3.dart';
-import "package:pointycastle/pointycastle.dart";
 import "package:pointycastle/export.dart";
-import "package:pointycastle/api.dart";
-import "package:pointycastle/ecc/curves/prime256v1.dart";
-import "package:pointycastle/key_generators/api.dart";
-import "package:pointycastle/key_generators/ec_key_generator.dart";
 import 'package:pointycastle/src/impl/secure_random_base.dart';
 import 'package:pointycastle/src/registry/registry.dart';
 import 'package:pointycastle/src/ufixnum.dart';
-
-import "package:pointycastle/export.dart";
-import 'dart:math';
-import 'dart:typed_data';
-
-import "package:pointycastle/export.dart";
 
 /// Big thanks to Deniz Mert Edincik (https://github.com/bluesign)
 /// for help invaluable help with transaction signing!
@@ -72,7 +61,7 @@ Uint8List signData(List<int> input, String privateKey, String domainTag) {
   var hasher = SHA3Digest(256);
   final digest = hasher.process(Uint8List.fromList(data));
 
-  final ECSignature signature = signer.generateSignature(digest);
+  final ECSignature signature = signer.generateSignature(digest) as ECSignature;
   return signatureToUint8List(signature);
 }
 

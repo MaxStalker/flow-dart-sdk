@@ -1,5 +1,4 @@
 
-import 'dart:convert';
 
 import 'package:flow_dart_sdk/fcl/constants.dart';
 import 'package:flow_dart_sdk/fcl/fcl.dart';
