@@ -144,7 +144,6 @@ class FlowClient {
           signMessageFunction,
       List<CadenceValue>? arguments,
       int gasLimit = 100}) async {
-    const tag = 'FLOW-V0.0-transaction';
     final client = this.getAccessClient();
     if (client == null) {
       throw Exception("Access client could not be initialized");
@@ -179,25 +178,6 @@ class FlowClient {
     transaction.authorizers.insertAll(0, [payer]);
 
     _log.info("Signing transaction");
-    // Signing
-    final payload = transactionPayload(transaction);
-    final rlpPayload = Rlp.encode(payload);
-    var payloadSignatures = [];
-
-    // Sign payload
-    // Proposer
-    // signPayload(transaction, rlpPayload, transaction.proposalKey.address,
-    //     privateKey, keyId, payloadSignatures);
-    // // Payer
-    // signPayload(
-    //     transaction, rlpPayload, payer, privateKey, keyId, payloadSignatures);
-    //
-    // // Authorizers
-    // transaction.authorizers.forEach((authorizer) {
-    //   signPayload(transaction, rlpPayload, authorizer, privateKey, keyId,
-    //       payloadSignatures);
-    // });
-
     // Lastly Payer signs envelope
     final envelope = foldEnvelope(transaction);
     final envelopeSignatureResponse =

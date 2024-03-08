@@ -1,22 +1,14 @@
-import 'dart:typed_data';
-import 'dart:ffi';
 import 'dart:convert';
 import 'package:convert/convert.dart';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:flow_dart_sdk/fcl/crypto.dart';
 import 'package:flow_dart_sdk/fcl/encode.dart';
 import 'package:flow_dart_sdk/fcl/types.dart';
 import 'package:flow_dart_sdk/src/cadenceUtils.dart';
 import 'package:flow_dart_sdk/src/generated/flow/entities/transaction.pb.dart';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pointycastle/ecc/curves/prime256v1.dart';
-import 'package:pointycastle/export.dart';
 import 'package:rlp/rlp.dart';
-import 'package:convert/convert.dart';
-import 'package:pointycastle/pointycastle.dart';
-import 'package:cryptography/cryptography.dart';
 
 Transaction baseTransaction() {
   final script =

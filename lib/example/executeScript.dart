@@ -58,8 +58,6 @@ pub fun main(address: Address): [{String: AnyStruct}] {
   ''';
 
   final prodAccount = '0xdbeb93ab076c216f';
-  // final account = '0x632b730f729cbc90';
-  final account = '0xb5470307425c6645';
   final CadenceValue value =
       CadenceValue(value: prodAccount, type: CadenceType.Address);
 

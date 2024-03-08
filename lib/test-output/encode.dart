@@ -1,10 +1,6 @@
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:convert/convert.dart';
 import 'package:flow_dart_sdk/fcl/types.dart';
-import 'package:flow_dart_sdk/src/cadenceUtils.dart';
 import 'package:rlp/rlp.dart';
-import 'package:pointycastle/pointycastle.dart';
 
 void main() {
 

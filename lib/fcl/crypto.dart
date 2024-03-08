@@ -4,13 +4,7 @@ import "dart:typed_data";
 
 import 'package:flow_dart_sdk/fcl/constants.dart';
 import 'package:flow_dart_sdk/src/generated/flow/entities/transaction.pb.dart';
-import "package:pointycastle/api.dart";
-import 'package:pointycastle/digests/sha3.dart';
-import "package:pointycastle/ecc/curves/prime256v1.dart";
 import "package:pointycastle/export.dart";
-import "package:pointycastle/key_generators/api.dart";
-import "package:pointycastle/key_generators/ec_key_generator.dart";
-import "package:pointycastle/pointycastle.dart";
 import 'package:pointycastle/src/impl/secure_random_base.dart';
 import 'package:pointycastle/src/registry/registry.dart';
 import 'package:pointycastle/src/ufixnum.dart';

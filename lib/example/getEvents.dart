@@ -4,7 +4,6 @@ import 'package:fixnum/fixnum.dart';
 
 import 'package:flow_dart_sdk/fcl/constants.dart';
 import 'package:flow_dart_sdk/fcl/fcl.dart';
-import 'package:flow_dart_sdk/src/generated/flow/entities/event.pb.dart';
 
 
 void main() async {
